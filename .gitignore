@@ -1,9 +1,41 @@
+# Java / Maven
 target/
+*.class
+*.jar
+*.war
+
+# Web dependencies and build output
 frontend/node_modules/
 frontend/dist/
+node_modules/
+dist/
+
+# Runtime data and personal study materials
 data/
 raw/
-*.log
 *.db
 *.db-shm
 *.db-wal
+*.sqlite
+*.sqlite3
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+application-local.yml
+application-*.local.yml
+
+# Logs, IDE and OS files
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Temporary archives and generated assets
+*.zip
+*.bak
+*.tmp
+
