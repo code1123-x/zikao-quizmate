@@ -1,0 +1,79 @@
+<view class="page plan">
+  <view class="head">
+    <view>
+      <view class="title">考试计划</view>
+      <view class="sub">勾选本次要考的学科，并设置考试日期</view>
+    </view>
+    <view class="head-count">{{selectedCount}} / {{subjects.length}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在读取考试计划…</view>
+
+  <block wx:elif="{{major}}">
+    <view class="card major-card">
+      <view class="major-top">
+        <view>
+          <view class="major-name">{{major.name}}</view>
+          <view class="major-sub">{{major.province || '未设置地区'}} · {{major.level || '未设置层次'}}</view>
+        </view>
+        <view class="tag">{{major.code || '专业'}}</view>
+      </view>
+      <view class="major-meta">
+        <text>学科 {{major.subjectCount}}</text>
+        <text>题目 {{major.questionCount}}</text>
+        <text wx:if="{{nextExamDate}}">下一次 {{nextExamDate}}</text>
+      </view>
+    </view>
+
+    <view class="card date-card">
+      <view class="between">
+        <view>
+          <view class="date-title">统一考试日期</view>
+          <view class="date-sub">切换日期会同时修改已勾选学科</view>
+        </view>
+        <picker mode="date" value="{{commonDate}}" bindchange="onCommonDate">
+          <view class="date-pill">{{commonDate}}</view>
+        </picker>
+      </view>
+      <view class="quick-actions">
+        <view class="mini-action" bindtap="selectAll">全选</view>
+        <view class="mini-action" bindtap="clearAll">清空</view>
+        <view class="mini-action" bindtap="webTip">换专业</view>
+      </view>
+    </view>
+
+    <view class="sec-title">学科列表</view>
+
+    <view class="card subject-list">
+      <view wx:for="{{subjects}}" wx:key="id" class="subject-row">
+        <view class="subject-main">
+          <view class="subject-top">
+            <view class="dot" style="background: {{item.color}}"></view>
+            <view class="subject-name">{{item.name}}</view>
+            <view class="subject-count">{{item.questionCount}} 题</view>
+          </view>
+          <view wx:if="{{item.selected}}" class="date-row">
+            <picker mode="date" value="{{item.examDate}}" bindchange="onSubjectDate" data-index="{{index}}">
+              <view class="date-pill small">{{item.examDate}}</view>
+            </picker>
+            <view class="date-note">单独调整这门学科</view>
+          </view>
+        </view>
+        <switch
+          checked="{{item.selected}}"
+          color="#4f46e5"
+          bindchange="toggleSubject"
+          data-index="{{index}}"
+        />
+      </view>
+    </view>
+
+    <view class="save-bar">
+      <button class="btn" loading="{{saving}}" disabled="{{saving}}" bindtap="save">
+        {{saving ? '保存中…' : '保存考试计划'}}
+      </button>
+    </view>
+
+    <view class="note">换专业、省份、层次请先在网页端操作。小程序端只修改本次要考的学科和日期。</view>
+  </block>
+</view>

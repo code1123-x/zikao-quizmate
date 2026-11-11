@@ -1,0 +1,6 @@
+# 把 quiz.example.com 换成你已备案的域名
+# Caddy 会自动申请并续期 HTTPS 证书
+quiz.example.com {
+	encode gzip
+	reverse_proxy quizmate:8080
+}

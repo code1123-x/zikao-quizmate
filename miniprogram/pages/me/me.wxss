@@ -1,0 +1,96 @@
+.me {
+  padding-top: 0;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+}
+
+.avatar {
+  width: 104rpx;
+  height: 104rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30rpx;
+  background: linear-gradient(135deg, #5b5be0, #8b7bff);
+  color: #fff;
+  font-size: 42rpx;
+  font-weight: 800;
+}
+
+.name {
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.role {
+  margin-top: 6rpx;
+  color: var(--muted);
+  font-size: 23rpx;
+}
+
+.sec-title {
+  margin: 36rpx 4rpx 14rpx;
+  color: var(--muted);
+  font-size: 23rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+
+.group {
+  padding: 0 26rpx;
+}
+
+.row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 26rpx 0;
+  border-bottom: 1rpx dashed var(--line);
+}
+
+.row-item:last-child {
+  border-bottom: none;
+}
+
+.row-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.row-sub {
+  margin-top: 5rpx;
+  color: var(--muted);
+  font-size: 22rpx;
+  word-break: break-all;
+}
+
+.row-arrow {
+  flex: none;
+  color: var(--muted);
+  font-size: 26rpx;
+}
+
+.about-title {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.about-sub {
+  margin-top: 8rpx;
+  color: var(--muted);
+  font-size: 24rpx;
+  line-height: 1.7;
+}
+
+.logout {
+  margin-top: 44rpx;
+  color: var(--bad);
+  border-color: #f5c2c2;
+  background: var(--bad-soft);
+}

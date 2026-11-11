@@ -1,0 +1,129 @@
+<view class="page bank">
+  <view class="head">
+    <view>
+      <view class="title">题库管理</view>
+      <view class="sub">搜索、修改答案、删除题目</view>
+    </view>
+    <view class="total">{{total}} 题</view>
+  </view>
+
+  <view class="card subject-picker">
+    <view class="picker-label">当前学科</view>
+    <picker mode="selector" range="{{subjectNames}}" value="{{subjectIndex}}" bindchange="pickSubject">
+      <view class="picker-value">
+        <text>{{activeSubjectName || '选择学科'}}</text>
+        <text class="picker-arrow">⌄</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="card search-card">
+    <view class="search-row">
+      <input
+        class="search-input"
+        value="{{keyword}}"
+        placeholder="搜索题干、答案或来源"
+        confirm-type="search"
+        bindinput="onKeyword"
+        bindconfirm="search"
+      />
+      <view class="search-btn" bindtap="search">搜索</view>
+    </view>
+    <view class="filters">
+      <scroll-view class="filter-scroll" scroll-x enable-flex>
+        <view
+          wx:for="{{types}}"
+          wx:key="key"
+          class="filter-chip {{typeKey === item.key ? 'on' : ''}}"
+          bindtap="setType"
+          data-key="{{item.key}}"
+        >{{item.label}}</view>
+      </scroll-view>
+    </view>
+    <view class="status-row">
+      <view
+        wx:for="{{statuses}}"
+        wx:key="key"
+        class="status-chip {{statusKey === item.key ? 'on' : ''}}"
+        bindtap="setStatus"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
+      <view wx:if="{{keyword}}" class="clear" bindtap="clearSearch">清空搜索</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载题目…</view>
+  <view wx:elif="{{!questions.length}}" class="card empty">这个筛选下没有题目。</view>
+
+  <view class="list">
+    <view wx:for="{{questions}}" wx:key="id" class="card q" bindtap="openDetail" data-id="{{item.id}}">
+      <view class="q-top">
+        <view
+          class="check {{item.selected ? 'on' : ''}}"
+          catchtap="toggleSelect"
+          data-id="{{item.id}}"
+        >{{item.selected ? '✓' : ''}}</view>
+        <view class="tag">{{item.typeLabel}}</view>
+        <view wx:if="{{item.pending}}" class="pending">待补</view>
+        <view wx:if="{{item.year}}" class="year">{{item.year}}</view>
+      </view>
+      <view class="q-stem">{{item.stem}}</view>
+      <view class="q-answer">
+        <text class="q-answer-key">答案</text>
+        <text class="q-answer-val {{item.pending ? 'empty' : ''}}">{{item.answer || '待补'}}</text>
+      </view>
+      <view class="q-source">{{item.source || '未标注来源'}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{hasMore}}" class="more" bindtap="loadMore">{{loadingMore ? '加载中…' : '加载更多'}}</view>
+  <view wx:elif="{{questions.length}}" class="more muted">已经到底了</view>
+
+  <view wx:if="{{selectedCount}}" class="batch-bar">
+    <view class="batch-count">已选 {{selectedCount}} 题</view>
+    <button class="btn sm danger" bindtap="batchDelete">删除所选</button>
+  </view>
+
+  <view wx:if="{{detail}}" class="mask" bindtap="closeDetail">
+    <view class="detail" catchtap="noop">
+      <view class="detail-head">
+        <view class="tag">{{detail.typeLabel}}</view>
+        <view class="detail-close" bindtap="closeDetail">×</view>
+      </view>
+      <scroll-view class="detail-body" scroll-y>
+        <view class="detail-stem">{{detail.stem}}</view>
+        <view wx:if="{{detail.options.length}}" class="detail-options">
+          <view wx:for="{{detail.options}}" wx:key="key" class="detail-option">
+            <text class="opt-key">{{item.key}}</text>
+            <text class="opt-text">{{item.text}}</text>
+          </view>
+        </view>
+        <view class="field">
+          <view class="field-label">答案</view>
+          <textarea
+            class="textarea answer-input"
+            value="{{editAnswer}}"
+            placeholder="选择题填 A / AB / 对 / 错；留空则标记为待补"
+            maxlength="2000"
+            bindinput="onAnswer"
+          />
+        </view>
+        <view class="field">
+          <view class="field-label">解析</view>
+          <textarea
+            class="textarea"
+            value="{{editAnalysis}}"
+            placeholder="可选"
+            maxlength="5000"
+            bindinput="onAnalysis"
+          />
+        </view>
+        <view class="detail-meta">{{detail.source || '未标注来源'}}{{detail.year ? ' · ' + detail.year : ''}}</view>
+      </scroll-view>
+      <view class="detail-foot">
+        <button class="btn ghost danger-text" bindtap="deleteDetail" loading="{{deleting}}">删除</button>
+        <button class="btn" bindtap="saveDetail" loading="{{saving}}">保存修改</button>
+      </view>
+    </view>
+  </view>
+</view>

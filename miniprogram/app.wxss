@@ -1,0 +1,128 @@
+page {
+  --font-body: "HarmonyOS Sans SC", "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-display: "Avenir Next", "DIN Alternate", "HarmonyOS Sans SC", "MiSans", sans-serif;
+  --primary: #635bce;
+  --primary-soft: #efedff;
+  --fg: #171a2b;
+  --muted: #7b809a;
+  --line: #e8eaf3;
+  --card: #ffffff;
+  --bad: #dc2626;
+  --bad-soft: #fdecec;
+  --ok: #16a34a;
+  --ok-soft: #e9f8ef;
+  --card-gap: 16rpx;
+  background:
+    radial-gradient(circle at 0 0, #ebeaff 0, transparent 42%),
+    linear-gradient(180deg, #f4f5fc 0%, #f7f8fc 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 28rpx;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.hello, .title, .exam-days .num, .stat-num, .subject-name, .sec-title {
+  font-family: var(--font-display);
+  letter-spacing: -1rpx;
+}
+
+.exam-days .num, .stat-num { font-variant-numeric: tabular-nums; }
+
+view, text, button, input, textarea, picker {
+  box-sizing: border-box;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 20rpx 28rpx 60rpx;
+}
+
+.card {
+  background: var(--card);
+  border: 1rpx solid var(--line);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 12rpx 36rpx -28rpx rgba(35, 38, 90, 0.35);
+}
+
+/* 页面里上下相邻的卡片统一间距，避免各页面自己写 margin 导致忽大忽小 */
+.page > .card + .card {
+  margin-top: var(--card-gap);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+  border: 0;
+  border-radius: 20rpx;
+  background: var(--primary);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.btn::after {
+  border: none;
+}
+
+.btn[disabled] {
+  opacity: 0.55;
+}
+
+.btn.ghost {
+  background: var(--card);
+  border: 1rpx solid var(--line);
+  color: var(--fg);
+}
+
+.btn.sm {
+  height: 64rpx;
+  padding: 0 24rpx;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 42rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.empty {
+  padding: 70rpx 28rpx;
+  text-align: center;
+  color: var(--muted);
+  font-size: 26rpx;
+  line-height: 1.8;
+}

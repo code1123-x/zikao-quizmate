@@ -1,0 +1,50 @@
+<view class="login-page">
+  <view class="brand">
+    <view class="logo">梦</view>
+    <view class="brand-name">逐梦屋</view>
+    <view class="brand-sub">把每一次练习都收好</view>
+  </view>
+
+  <view wx:if="{{checking}}" class="checking">正在检查登录状态…</view>
+
+  <view wx:else class="card form-card">
+    <view class="mode-tabs">
+      <view class="mode-tab {{mode === 'login' ? 'on' : ''}}" bindtap="switchMode">登录</view>
+      <view class="mode-tab {{mode === 'register' ? 'on' : ''}}" bindtap="switchMode">注册</view>
+    </view>
+
+    <view class="field">
+      <view class="label">账号</view>
+      <input
+        class="input"
+        value="{{username}}"
+        placeholder="用户名"
+        maxlength="32"
+        bindinput="onUsername"
+      />
+    </view>
+
+    <view class="field">
+      <view class="label">密码</view>
+      <input
+        class="input"
+        value="{{password}}"
+        password
+        placeholder="至少 6 位"
+        maxlength="64"
+        bindinput="onPassword"
+        bindconfirm="submit"
+      />
+    </view>
+
+    <button class="btn submit" loading="{{loading}}" disabled="{{loading}}" bindtap="submit">
+      {{mode === 'login' ? '登录' : '注册并登录'}}
+    </button>
+
+    <view class="tip">
+      {{mode === 'login' ? '还没有账号？点上面的「注册」' : '注册后会自动登录'}}
+    </view>
+  </view>
+
+  <view class="foot">网页端和电脑端使用同一个账号</view>
+</view>

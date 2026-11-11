@@ -1,0 +1,63 @@
+<view class="page me">
+  <view class="profile card">
+    <view class="avatar">{{initial}}</view>
+    <view class="profile-copy">
+      <view class="name">{{user ? user.username : '未登录'}}</view>
+      <view class="role">{{user && user.admin ? '管理员账号' : '普通账号'}}</view>
+    </view>
+  </view>
+
+  <view class="sec-title">学习</view>
+  <view class="card group">
+    <view class="row-item" bindtap="goStats">
+      <view>
+        <view class="row-title">学习统计</view>
+        <view class="row-sub">答题量、正确率、学科表现</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+    <view class="row-item" bindtap="goPlan">
+      <view>
+        <view class="row-title">考试计划</view>
+        <view class="row-sub">勾选本次要考的学科和日期</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+    <view class="row-item" bindtap="goBank">
+      <view>
+        <view class="row-title">题库管理</view>
+        <view class="row-sub">搜索、修改答案、删除题目</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+    <view class="row-item" bindtap="goImport">
+      <view>
+        <view class="row-title">导入题库</view>
+        <view class="row-sub">从微信聊天文件导入单个题库文件</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+    <view class="row-item" bindtap="goCards">
+      <view>
+        <view class="row-title">知识点卡片</view>
+        <view class="row-sub">先回想，再看答案</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+    <view class="row-item" bindtap="goExam">
+      <view>
+        <view class="row-title">模拟考试</view>
+        <view class="row-sub">限时组卷，交卷后看结果</view>
+      </view>
+      <view class="row-arrow">›</view>
+    </view>
+  </view>
+
+  <view class="sec-title">关于</view>
+  <view class="card about">
+    <view class="about-title">逐梦屋</view>
+    <view class="about-sub">网页端和小程序共用同一个账号、同一份题库。</view>
+  </view>
+
+  <button class="btn ghost logout" bindtap="logout">退出登录</button>
+</view>

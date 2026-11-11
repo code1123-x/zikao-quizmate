@@ -1,0 +1,57 @@
+<view class="page learn">
+  <view class="topbar">
+    <view class="top-copy">
+      <view class="top-title">{{subjectName}}</view>
+      <view class="top-sub">{{done ? total : index + 1}} / {{total}}</view>
+    </view>
+    <view class="quit" bindtap="quit">退出</view>
+  </view>
+  <view class="progress"><view class="progress-in" style="width: {{progress}}%"></view></view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载知识点…</view>
+
+  <view wx:elif="{{done}}" class="card done-card">
+    <view class="done-icon">✓</view>
+    <view class="done-title">这一组背完了</view>
+    <view class="done-sub">共 {{total}} 个知识点</view>
+    <view class="done-stats">
+      <view class="done-stat"><b class="ok">{{stats.good}}</b><span>会了</span></view>
+      <view class="done-stat"><b class="mid">{{stats.vague}}</b><span>模糊</span></view>
+      <view class="done-stat"><b class="bad">{{stats.bad}}</b><span>不会</span></view>
+    </view>
+    <button class="btn" bindtap="restart">再来一组</button>
+    <button class="btn ghost back" bindtap="quit">返回知识点</button>
+  </view>
+
+  <block wx:elif="{{current}}">
+    <view class="card card-body">
+      <view class="meta">
+        <view class="tag">{{typeLabel}}</view>
+        <view wx:if="{{current.year}}" class="source">{{current.year}} 年</view>
+      </view>
+      <view class="stem">{{current.title}}</view>
+
+      <view wx:if="{{!revealed}}" class="reveal">
+        <button class="btn" bindtap="reveal">显示答案</button>
+        <view class="hint">先在心里回想一下，再看答案</view>
+      </view>
+
+      <block wx:else>
+        <view class="answer-box">
+          <view class="answer-key">参考答案</view>
+          <view class="answer-text">{{current.answer}}</view>
+        </view>
+        <view wx:if="{{current.analysis}}" class="analysis">{{current.analysis}}</view>
+
+        <view class="rate-hint">刚才想出来了吗？</view>
+        <view class="rate-row">
+          <button class="rate bad" disabled="{{busy}}" bindtap="rate" data-rating="NONE">不会</button>
+          <button class="rate mid" disabled="{{busy}}" bindtap="rate" data-rating="VAGUE">模糊</button>
+          <button class="rate good" disabled="{{busy}}" bindtap="rate" data-rating="MASTER">会了</button>
+        </view>
+      </block>
+    </view>
+  </block>
+
+  <view wx:else class="empty">这门课还没有知识点。</view>
+</view>

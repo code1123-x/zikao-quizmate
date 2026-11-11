@@ -1,0 +1,23 @@
+# 公网 / 反向代理环境使用：java -jar app.jar --spring.profiles.active=prod
+server:
+  address: ${QUIZMATE_HOST:0.0.0.0}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        # 通过 HTTPS 访问时必须为 true；本地 HTTP 调试请设 QUIZMATE_SECURE_COOKIE=false
+        secure: ${QUIZMATE_SECURE_COOKIE:true}
+        same-site: lax
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: ${QUIZMATE_DB_POOL:8}
+
+logging:
+  file:
+    name: ${QUIZMATE_LOG:logs/quizmate.log}
+  logback:
+    rollingpolicy:
+      max-file-size: 20MB
+      max-history: 14

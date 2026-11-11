@@ -1,0 +1,102 @@
+<view class="page stats">
+  <view class="head">
+    <view>
+      <view class="title">学习统计</view>
+      <view class="sub">累计指标统计全部学习数据</view>
+    </view>
+    <view class="range">
+      <view
+        wx:for="{{rangeDays}}"
+        wx:key="*this"
+        class="tab {{days === item ? 'on' : ''}}"
+        bindtap="setDays"
+        data-days="{{item}}"
+      >
+        {{item}} 天
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在统计…</view>
+
+  <block wx:elif="{{report}}">
+    <view class="card metrics">
+      <view class="metric">
+        <view class="n">{{overview.answered}}</view>
+        <view class="l">累计答题</view>
+      </view>
+      <view class="metric">
+        <view class="n primary">{{overview.accuracy}}<text>%</text></view>
+        <view class="l">总正确率</view>
+      </view>
+      <view class="metric">
+        <view class="n">{{minutesText}}</view>
+        <view class="l">学习时长</view>
+      </view>
+      <view class="metric">
+        <view class="n warn">{{overview.streak}}<text>天</text></view>
+        <view class="l">连续打卡</view>
+      </view>
+    </view>
+
+    <view class="card bank">
+      <view class="bcell"><b>{{overview.choiceCount}}</b><span>可刷选择题</span></view>
+      <view class="bcell"><b>{{overview.cardCount}}</b><span>知识点</span></view>
+      <view class="bcell"><b>{{overview.pendingCount}}</b><span>待补答案</span></view>
+      <view class="bcell"><b class="bad">{{overview.wrongCount}}</b><span>错题</span></view>
+    </view>
+
+    <view class="card chart-card">
+      <view class="card-head">
+        <view class="card-title">近 {{days}} 天答题量{{days === 30 ? '（按周）' : ''}}</view>
+        <view class="muted small">{{todayText}}</view>
+      </view>
+      <scroll-view class="chart-scroll" scroll-x enable-flex>
+        <view class="chart">
+          <view wx:for="{{bars}}" wx:key="label" class="bar-slot">
+            <view class="bar-wrap">
+              <view class="bar" style="height: {{item.h}}rpx">
+                <view class="bar-ok" style="height: {{item.okH}}rpx"></view>
+              </view>
+            </view>
+            <view class="bar-label">{{item.label}}</view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="legend">
+        <view class="legend-item"><view class="dot primary-bg"></view>答题</view>
+        <view class="legend-item"><view class="dot ok-bg"></view>答对</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-head">
+        <view class="card-title">学科表现</view>
+        <view class="muted small">{{subjects.length}} 门</view>
+      </view>
+      <view wx:if="{{!subjects.length}}" class="empty small">还没有答题记录</view>
+      <view wx:for="{{subjects}}" wx:key="subjectId" class="subject-row">
+        <view class="subject-badge" style="background: {{item.color}}">{{item.initial}}</view>
+        <view class="subject-main">
+          <view class="subject-name">{{item.name}}</view>
+          <view class="subject-sub">答 {{item.answered}} / {{item.choiceCount}} · {{item.accuracy}}%</view>
+          <view wx:if="{{item.answered > 0 && item.accuracy < 70}}" class="weak-action" bindtap="reviewSubject" data-id="{{item.subjectId}}">练薄弱题</view>
+        </view>
+        <view class="subject-pending" wx:if="{{item.pending > 0}}">待补 {{item.pending}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-head">
+        <view class="card-title">题型表现</view>
+      </view>
+      <view wx:if="{{!types.length}}" class="empty small">还没有答题记录</view>
+      <view wx:for="{{types}}" wx:key="type" class="type-row">
+        <view class="type-name">{{item.label}}</view>
+        <view class="type-bar"><view class="type-bar-in" style="width: {{item.accuracy}}%"></view></view>
+        <view class="type-stat">{{item.accuracy}}%</view>
+        <view class="type-count">{{item.answered}} 题</view>
+      </view>
+    </view>
+  </block>
+</view>

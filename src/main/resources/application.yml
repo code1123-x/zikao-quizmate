@@ -1,0 +1,54 @@
+server:
+  port: 8080
+  # 默认只监听本机；手机访问请用 start-lan.bat 或设置 QUIZMATE_HOST=0.0.0.0
+  address: ${QUIZMATE_HOST:127.0.0.1}
+  compression:
+    enabled: true
+  error:
+    include-message: never
+  servlet:
+    session:
+      timeout: 30d
+      cookie:
+        http-only: true
+        same-site: lax
+
+spring:
+  application:
+    name: quizmate
+  datasource:
+    url: jdbc:sqlite:${QUIZMATE_DATA:data}/quiz.db?journal_mode=WAL&busy_timeout=5000
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 4
+      connection-timeout: 10000
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      continue-on-error: false
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+
+logging:
+  level:
+    root: INFO
+    com.quizmate: INFO
+    org.apache.poi: ERROR
+    org.apache.pdfbox: OFF
+    org.apache.fontbox: OFF

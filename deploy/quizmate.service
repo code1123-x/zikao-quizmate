@@ -1,0 +1,19 @@
+[Unit]
+Description=QuizMate
+After=network.target
+
+[Service]
+Type=simple
+User=quizmate
+WorkingDirectory=/opt/quizmate
+Environment=SPRING_PROFILES_ACTIVE=prod
+Environment=QUIZMATE_DATA=/opt/quizmate/data
+Environment=QUIZMATE_HOST=127.0.0.1
+Environment=QUIZMATE_SECURE_COOKIE=true
+ExecStart=/usr/bin/java -Dfile.encoding=UTF-8 -jar /opt/quizmate/quizmate-0.1.0.jar
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

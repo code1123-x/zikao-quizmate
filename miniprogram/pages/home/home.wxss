@@ -1,0 +1,362 @@
+.home {
+  padding-top: 0;
+}
+
+.hello-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26rpx;
+}
+
+.hello {
+  font-size: 38rpx;
+  font-weight: 800;
+  letter-spacing: -1rpx;
+}
+
+.date {
+  margin-top: 6rpx;
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.avatar {
+  width: 76rpx;
+  height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  background: #fff;
+  border: 1rpx solid var(--line);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 30rpx;
+}
+
+.exam-card {
+  padding: 30rpx;
+  background:
+    radial-gradient(320rpx 180rpx at 100% 0%, rgba(79, 70, 229, 0.16), transparent 70%),
+    linear-gradient(135deg, #f8f7ff, #ffffff);
+}
+
+/* 品牌主卡：保持信息清晰，只用一块深色制造视觉主角 */
+.home .exam-card {
+  color: #fff;
+  border-color: transparent;
+  background:
+    radial-gradient(300rpx 180rpx at 100% 0%, rgba(155, 145, 255, .28), transparent 72%),
+    linear-gradient(135deg, #242449 0%, #5149ae 100%);
+  box-shadow: 0 24rpx 52rpx -32rpx rgba(57, 49, 150, .8);
+}
+
+.home .exam-days .num,
+.home .exam-days .unit {
+  color: #fff;
+}
+
+.home .exam-sub,
+.home .exam-date {
+  color: rgba(255, 255, 255, .72);
+}
+
+.home .exam-date {
+  border-top-color: rgba(255, 255, 255, .18);
+}
+
+.exam-main {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.exam-days {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
+}
+
+.exam-days .num {
+  font-size: 76rpx;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--primary);
+  letter-spacing: -3rpx;
+}
+
+.exam-days .unit {
+  color: var(--primary);
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.exam-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.exam-sub {
+  margin-top: 8rpx;
+  color: var(--muted);
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.exam-date {
+  margin-top: 22rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx dashed var(--line);
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.plan-tip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.tip-title {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.tip-sub {
+  margin-top: 6rpx;
+  color: var(--muted);
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.stat {
+  flex: 1;
+  padding: 24rpx 18rpx;
+  text-align: center;
+  border: 1rpx solid rgba(99, 91, 206, .08);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 10rpx 26rpx -24rpx rgba(42, 39, 102, .45);
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 800;
+  letter-spacing: -1rpx;
+}
+
+.stat-num.ok {
+  color: var(--ok);
+}
+
+.stat-num.bad {
+  color: var(--bad);
+}
+
+.pct {
+  font-size: 22rpx;
+  margin-left: 2rpx;
+}
+
+.stat-label {
+  margin-top: 4rpx;
+  color: var(--muted);
+  font-size: 22rpx;
+}
+
+.tool-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.tool {
+  flex: 1;
+  padding: 20rpx 12rpx;
+  border: 1rpx solid rgba(99, 91, 206, .08);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, .72);
+}
+
+.tool-title {
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.tool-sub {
+  margin-top: 5rpx;
+  color: var(--muted);
+  font-size: 19rpx;
+}
+
+.sec-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 32rpx 4rpx 16rpx;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.sec-count {
+  font-size: 23rpx;
+  font-weight: 400;
+}
+
+.subject-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.subject {
+  padding: 26rpx;
+  border-color: rgba(99, 91, 206, .10);
+  box-shadow: 0 14rpx 32rpx -26rpx rgba(42, 39, 102, .42);
+}
+
+.subject-top {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.subject-badge {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.subject-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.subject-actions-mini {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.subject-go {
+  padding: 10rpx 22rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+.subject-go.ghost {
+  background: #f4f5fa;
+  color: var(--muted);
+}
+
+.subject-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  color: var(--muted);
+  font-size: 23rpx;
+}
+
+.subject-meta .warn {
+  color: #d97706;
+}
+
+.subject-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx dashed var(--line);
+  font-size: 22rpx;
+}
+
+.exam-badge {
+  flex: none;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 21rpx;
+  font-weight: 700;
+}
+
+.exam-badge.off {
+  background: #f1f2f8;
+  color: var(--muted);
+}
+
+.idle-title {
+  margin-top: 32rpx;
+}
+
+.idle-card {
+  padding: 8rpx 26rpx;
+}
+
+.idle-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx dashed var(--line);
+}
+
+.idle-row:last-child {
+  border-bottom: none;
+}
+
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+}
+
+.idle-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 27rpx;
+  font-weight: 600;
+}
+
+.idle-tip {
+  color: var(--muted);
+  font-size: 22rpx;
+}
+
+.web-note {
+  margin-top: 44rpx;
+  text-align: center;
+  color: #a2a7be;
+  font-size: 22rpx;
+}
+
+.empty-actions { display: flex; gap: 14rpx; justify-content: center; margin-top: 20rpx; }
+.empty-action { padding: 12rpx 20rpx; border-radius: 999rpx; background: var(--primary-soft); color: var(--primary); font-size: 23rpx; font-weight: 700; }

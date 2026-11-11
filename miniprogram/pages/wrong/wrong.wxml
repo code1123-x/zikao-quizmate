@@ -1,0 +1,83 @@
+<view class="page wrong">
+  <view class="hero">
+    <view class="hero-title">错题本</view>
+    <view class="hero-sub">共 {{total || 0}} 道错题</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载…</view>
+
+  <view wx:elif="{{!summary.length}}" class="card empty">
+    还没有错题。去首页刷几题吧，做错的会自动进来。
+  </view>
+
+  <block wx:else>
+    <scroll-view class="chips" scroll-x enable-flex>
+      <view
+        wx:for="{{summary}}"
+        wx:key="subjectId"
+        class="chip {{item.subjectId === activeId ? 'on' : ''}}"
+        bindtap="pickSubject"
+        data-id="{{item.subjectId}}"
+      >
+        <view class="chip-dot" style="background: {{item.color}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <view class="wrong-head">
+      <view>
+        <view class="wrong-title">{{activeName}}</view>
+        <view class="wrong-sub">{{total}} 道错题</view>
+      </view>
+      <button
+        class="btn sm"
+        loading="{{starting}}"
+        disabled="{{starting || !total}}"
+        bindtap="practiceWrong"
+      >
+        练习错题
+      </button>
+    </view>
+
+    <view class="list">
+      <view
+        wx:for="{{items}}"
+        wx:key="id"
+        class="card q"
+        bindtap="openDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="q-top">
+          <view class="tag">{{item.typeLabel}}</view>
+          <view class="q-wrong" wx:if="{{item.wrongCount > 1}}">错 {{item.wrongCount}} 次</view>
+          <view class="q-year" wx:if="{{item.year}}">{{item.year}}</view>
+        </view>
+        <view class="q-stem">{{item.stem}}</view>
+        <view class="q-source">{{item.source || '错题'}}</view>
+      </view>
+    </view>
+
+    <view wx:if="{{hasMore}}" class="more" bindtap="loadMore">
+      {{loadingMore ? '加载中…' : '加载更多'}}
+    </view>
+    <view wx:elif="{{items.length}}" class="more muted">已经到底了</view>
+  </block>
+
+  <view wx:if="{{detail}}" class="mask" bindtap="closeDetail">
+    <view class="detail" catchtap="noop">
+      <view class="detail-head">
+        <view class="tag">{{detail.typeLabel}}</view>
+        <view class="detail-close" bindtap="closeDetail">×</view>
+      </view>
+      <view class="detail-stem">{{detail.stem}}</view>
+      <view class="detail-section">
+        <view class="detail-key">正确答案</view>
+        <view class="detail-answer">{{detail.answer}}</view>
+      </view>
+      <view wx:if="{{detail.analysis}}" class="detail-section">
+        <view class="detail-key">解析</view>
+        <view class="detail-analysis">{{detail.analysis}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,124 @@
+<view class="page home">
+  <view class="hello-row">
+    <view>
+      <view class="hello">{{greeting}}</view>
+      <view class="date">{{today}}</view>
+    </view>
+    <view class="avatar" bindtap="goWrong">梦</view>
+  </view>
+
+  <view wx:if="{{plan && plan.nextExamDate}}" class="card exam-card" bindtap="goPlan">
+    <view class="exam-main">
+      <view class="exam-days">
+        <text class="num">{{plan.daysLeft >= 0 ? plan.daysLeft : 0}}</text>
+        <text class="unit">天</text>
+      </view>
+      <view class="exam-copy">
+        <view class="exam-title">距离本次考试</view>
+        <view class="exam-sub">{{nextNames || '还没有安排科目'}}</view>
+      </view>
+    </view>
+    <view class="exam-date">{{plan.nextExamDate}}</view>
+  </view>
+
+  <view wx:else class="card plan-tip" bindtap="goPlanTip">
+    <view>
+      <view class="tip-title">还没设置考试日期</view>
+      <view class="tip-sub">在网页端设置考试计划后，这里会显示倒计时</view>
+    </view>
+    <view class="tag">去网页设置</view>
+  </view>
+
+  <view class="stats">
+    <view class="stat card" bindtap="goStats">
+      <view class="stat-num">{{overview ? overview.todayAnswered : 0}}</view>
+      <view class="stat-label">今日已练</view>
+    </view>
+    <view class="stat card" bindtap="goStats">
+      <view class="stat-num ok">{{overview ? overview.accuracy : 0}}<text class="pct">%</text></view>
+      <view class="stat-label">总正确率</view>
+    </view>
+    <view class="stat card" bindtap="goWrong">
+      <view class="stat-num bad">{{overview ? overview.wrongCount : 0}}</view>
+      <view class="stat-label">错题</view>
+    </view>
+  </view>
+
+  <view class="tool-row">
+    <view class="tool card" bindtap="goCards">
+      <view class="tool-title">知识点</view>
+      <view class="tool-sub">待复习 {{overview ? overview.dueCardCount : 0}}</view>
+    </view>
+    <view class="tool card" bindtap="goBankAll">
+      <view class="tool-title">题库管理</view>
+      <view class="tool-sub">搜索、改答案、删题</view>
+    </view>
+    <view class="tool card" bindtap="goExam">
+      <view class="tool-title">模拟考试</view>
+      <view class="tool-sub">限时组卷</view>
+    </view>
+    <view class="tool card" bindtap="goPlan">
+      <view class="tool-title">考试计划</view>
+      <view class="tool-sub">科目和日期</view>
+    </view>
+  </view>
+
+  <view class="sec-title">
+    <text>我的学科</text>
+    <text wx:if="{{activeSubjects.length}}" class="muted sec-count">{{activeSubjects.length}} 门有题</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载…</view>
+
+  <view wx:elif="{{!activeSubjects.length && !idleSubjects.length}}" class="card empty">
+    <view>还没有题目，先完成考试计划或导入题库。</view>
+    <view class="empty-actions">
+      <view class="empty-action" bindtap="goPlan">设置考试计划</view>
+      <view class="empty-action" bindtap="goImport">去导入题库</view>
+    </view>
+  </view>
+
+  <view class="subject-list">
+    <view
+      wx:for="{{activeSubjects}}"
+      wx:key="id"
+      class="card subject"
+      style="--sc: {{item.color}}"
+      bindtap="startPractice"
+      data-id="{{item.id}}"
+    >
+      <view class="subject-top">
+        <view class="subject-badge" style="background: {{item.color}}">{{item.initial}}</view>
+        <view class="subject-name">{{item.name}}</view>
+        <view class="subject-actions-mini">
+          <view class="subject-go ghost" catchtap="goBank" data-id="{{item.id}}">题库</view>
+          <view class="subject-go">练题</view>
+        </view>
+      </view>
+      <view class="subject-meta">
+        <text>选择题 {{item.choiceCount}}</text>
+        <text>知识点 {{item.cardCount}}</text>
+        <text wx:if="{{item.pendingCount > 0}}" class="warn">待补 {{item.pendingCount}}</text>
+      </view>
+      <view class="subject-foot">
+        <text class="muted">已练 {{item.answeredCount}} / {{item.choiceCount}} · {{item.accuracy}}%</text>
+        <text class="exam-badge {{item.examDate ? '' : 'off'}}">{{item.badge}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{idleSubjects.length}}" class="sec-title idle-title">
+    <text>还没题目的学科</text>
+    <text class="muted sec-count">{{idleSubjects.length}} 门</text>
+  </view>
+
+  <view wx:if="{{idleSubjects.length}}" class="card idle-card">
+    <view wx:for="{{idleSubjects}}" wx:key="id" class="idle-row">
+      <view class="dot" style="background: {{item.color}}"></view>
+      <view class="idle-name">{{item.name}}</view>
+      <view class="idle-tip" catchtap="goImport" data-id="{{item.id}}">去导入</view>
+    </view>
+  </view>
+
+  <view class="web-note">更多功能在「我的」里，网页端和小程序数据实时同步</view>
+</view>

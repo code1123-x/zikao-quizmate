@@ -1,0 +1,123 @@
+<view class="page practice">
+  <view wx:if="{{loading}}" class="empty">正在组卷…</view>
+
+  <view wx:elif="{{finished}}" class="finish">
+    <view class="card finish-card">
+      <view class="finish-title">练习完成</view>
+      <view class="finish-ring">
+        <text class="finish-pct">{{summary.accuracy}}%</text>
+        <text class="finish-label">正确率</text>
+      </view>
+      <view class="finish-grid">
+        <view class="finish-item">
+          <view class="finish-num">{{summary.total}}</view>
+          <view class="finish-key">总题数</view>
+        </view>
+        <view class="finish-item">
+          <view class="finish-num ok">{{summary.correct}}</view>
+          <view class="finish-key">答对</view>
+        </view>
+        <view class="finish-item">
+          <view class="finish-num bad">{{summary.wrong}}</view>
+          <view class="finish-key">答错</view>
+        </view>
+      </view>
+      <button class="btn" bindtap="restart">再练一组</button>
+      <button class="btn ghost back" bindtap="backHome">返回首页</button>
+    </view>
+  </view>
+
+  <block wx:elif="{{current}}">
+    <view class="topbar">
+      <view class="top-copy">
+        <view class="top-title">{{session.subjectName}}</view>
+        <view class="top-sub">第 {{index + 1}} / {{questions.length}} 题 · 已答 {{answeredCount}}</view>
+      </view>
+      <view class="top-right">
+        <view wx:if="{{isExam}}" class="exam-tag">考试</view>
+        <view wx:if="{{remainingText}}" class="timer">{{remainingText}}</view>
+        <view wx:if="{{isExam && !finished}}" class="finish-link" bindtap="confirmFinish">交卷</view>
+        <view wx:if="{{!isExam}}" class="top-pct">{{progress}}%</view>
+      </view>
+    </view>
+    <view class="progress"><view class="progress-in" style="width: {{progress}}%"></view></view>
+
+    <view class="card q-card">
+      <view class="q-head">
+        <view class="tag">{{typeLabel}}</view>
+        <view wx:if="{{current.source}}" class="q-source">{{current.source}}</view>
+      </view>
+      <view class="q-stem">{{current.stem}}</view>
+
+      <view wx:if="{{!unsupported}}" class="options">
+        <view
+          wx:for="{{optionViews}}"
+          wx:key="key"
+          class="option {{item.picked ? 'picked' : ''}} {{item.correct ? 'correct' : ''}} {{item.wrong ? 'wrong' : ''}}"
+          bindtap="pickOption"
+          data-key="{{item.key}}"
+        >
+          <view class="option-key">{{item.key}}</view>
+          <view class="option-text">{{item.text}}</view>
+        </view>
+      </view>
+
+      <view wx:if="{{current.type === 'FILL' || current.type === 'TERM' || current.type === 'SHORT' || current.type === 'CALC' || current.type === 'ESSAY'}}" class="written-answer">
+        <textarea class="answer-input" value="{{textAnswer}}" bindinput="onTextAnswer" maxlength="3000" placeholder="写下你的答案，提交后可查看参考答案" auto-height />
+        <view wx:if="{{!isExam && (current.answer || current.analysis)}}" class="reference-toggle" bindtap="toggleReference">{{showReference ? '收起参考答案' : '对照参考答案并自评'}}</view>
+        <view wx:if="{{showReference}}" class="reference-body">
+          <view wx:if="{{current.answer}}"><text class="reference-label">参考答案</text>{{current.answer}}</view>
+          <view wx:if="{{current.analysis}}"><text class="reference-label">解析</text>{{current.analysis}}</view>
+        </view>
+      </view>
+
+      <view wx:if="{{!isExam && judged}}" class="feedback {{result.correct ? 'ok' : 'bad'}}">
+        <view class="feedback-title">
+          {{result.correct ? '回答正确' : '回答错误'}}
+          <text wx:if="{{!result.correct}}"> · 正确答案 {{result.correctAnswer}}</text>
+        </view>
+        <view wx:if="{{result.analysis}}" class="feedback-body">{{result.analysis}}</view>
+      </view>
+
+      <view wx:if="{{!isExam && showReference && !judged && current.type !== 'SINGLE' && current.type !== 'MULTIPLE' && current.type !== 'JUDGE'}}" class="rating-actions">
+        <button class="rating master" data-rating="MASTER" bindtap="rateSubjective">答对了</button>
+        <button class="rating vague" data-rating="VAGUE" bindtap="rateSubjective">有印象但不全</button>
+        <button class="rating none" data-rating="NONE" bindtap="rateSubjective">完全不会</button>
+      </view>
+
+      <view wx:if="{{isExam}}" class="exam-note">
+        考试模式不显示对错，交卷后统一查看结果
+      </view>
+
+      <view class="actions">
+        <button
+          wx:if="{{!isExam && !judged && (current.type === 'SINGLE' || current.type === 'MULTIPLE' || current.type === 'JUDGE')}}"
+          class="btn"
+          loading="{{submitting}}"
+          disabled="{{submitting}}"
+          bindtap="submitAnswer"
+        >
+          提交答案
+        </button>
+        <button
+          wx:if="{{isExam && !examSaved}}"
+          class="btn"
+          loading="{{submitting}}"
+          disabled="{{submitting}}"
+          bindtap="submitAnswer"
+        >
+          保存答案
+        </button>
+        <button
+          wx:if="{{(isExam && examSaved) || (!isExam && judged)}}"
+          class="btn"
+          bindtap="nextQuestion"
+        >
+          {{index + 1 < questions.length ? '下一题' : (isExam ? '交卷' : '完成练习')}}
+        </button>
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="empty">这一组没有可练习的题目。</view>
+</view>

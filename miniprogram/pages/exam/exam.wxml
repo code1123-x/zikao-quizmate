@@ -1,0 +1,75 @@
+<view class="page exam-page">
+  <view class="head">
+    <view class="title">模拟考试</view>
+    <view class="sub">限时组卷，交卷后统一看结果</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在读取学科…</view>
+
+  <block wx:elif="{{active}}">
+    <view class="card">
+      <view class="field-label">选择学科</view>
+      <picker mode="selector" range="{{subjectNames}}" value="{{subjectIndex}}" bindchange="pickSubject">
+        <view class="picker-value">
+          <text>{{active.name}}</text>
+          <text class="picker-arrow">⌄</text>
+        </view>
+      </picker>
+      <view class="subject-meta">可组卷选择题 {{active.choiceCount}} 道</view>
+    </view>
+
+    <view class="card">
+      <view class="field-label">模式</view>
+      <view class="mode-row">
+        <view class="mode {{mode === 'EXAM' ? 'on' : ''}}" bindtap="setMode" data-mode="EXAM">
+          <view class="mode-title">模拟考试</view>
+          <view class="mode-sub">限时，不显示答案</view>
+        </view>
+        <view class="mode {{mode === 'RANDOM' ? 'on' : ''}}" bindtap="setMode" data-mode="RANDOM">
+          <view class="mode-title">随机练习</view>
+          <view class="mode-sub">边做边看答案</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="field-label">题量</view>
+      <view class="chips">
+        <view
+          wx:for="{{counts}}"
+          wx:key="*this"
+          class="chip {{countIndex === index ? 'on' : ''}}"
+          bindtap="setCount"
+          data-index="{{index}}"
+        >{{item}} 题</view>
+      </view>
+
+      <block wx:if="{{mode === 'EXAM'}}">
+        <view class="field-label duration-label">考试时长</view>
+        <view class="chips">
+          <view
+            wx:for="{{durations}}"
+            wx:key="*this"
+            class="chip {{durationIndex === index ? 'on' : ''}}"
+            bindtap="setDuration"
+            data-index="{{index}}"
+          >{{item}} 分钟</view>
+        </view>
+      </block>
+    </view>
+
+    <view class="card tips">
+      <view class="tip-title">考试说明</view>
+      <view class="tip-line">· 只随机抽取单选、多选、判断题</view>
+      <view class="tip-line">· 考试中不显示对错和解析</view>
+      <view class="tip-line">· 时间到会自动交卷</view>
+      <view class="tip-line">· 交卷后可以查看正确率和错题</view>
+    </view>
+
+    <button class="btn start" loading="{{starting}}" disabled="{{starting}}" bindtap="start">
+      {{starting ? '正在组卷…' : (mode === 'EXAM' ? '开始模拟考试' : '开始随机练习')}}
+    </button>
+  </block>
+
+  <view wx:else class="card empty">还没有可练习的选择题，请先在网页端导入题库。</view>
+</view>

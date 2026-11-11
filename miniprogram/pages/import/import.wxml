@@ -1,0 +1,80 @@
+<view class="page import">
+  <view class="head">
+    <view>
+      <view class="title">导入题库</view>
+      <view class="sub">从微信聊天文件导入，支持 Word / PDF / Excel / TXT</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在读取学科…</view>
+
+  <block wx:elif="{{subjects.length}}">
+    <view class="card">
+      <view class="field-label">导入到学科</view>
+      <picker mode="selector" range="{{subjectNames}}" value="{{subjectIndex}}" bindchange="pickSubject">
+        <view class="picker-value">
+          <text>{{activeSubjectName}}</text>
+          <text class="picker-arrow">⌄</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="card upload-card">
+      <view class="upload-box" bindtap="chooseFile">
+        <view class="upload-icon">＋</view>
+        <view class="upload-title">{{file ? '重新选择文件' : '选择文件'}}</view>
+        <view class="upload-sub">小程序不能选电脑文件夹，请先把文件发到微信「文件传输助手」</view>
+      </view>
+
+      <view wx:if="{{file}}" class="file-row">
+        <view class="file-icon">档</view>
+        <view class="file-copy">
+          <view class="file-name">{{fileName}}</view>
+          <view class="file-size">{{fileSizeText}}</view>
+        </view>
+        <view class="file-remove" bindtap="reset">移除</view>
+      </view>
+
+      <view wx:if="{{uploading}}" class="progress">
+        <view class="progress-in" style="width: {{uploadPct}}%"></view>
+      </view>
+
+      <button class="btn upload-btn" loading="{{uploading}}" disabled="{{uploading || !file}}" bindtap="upload">
+        {{uploading ? '正在导入 ' + uploadPct + '%' : '开始导入'}}
+      </button>
+    </view>
+
+    <view wx:if="{{error}}" class="card error-card">{{error}}</view>
+
+    <view wx:if="{{result}}" class="card result-card">
+      <view class="result-title">导入完成</view>
+      <view class="result-grid">
+        <view class="result-cell"><b>{{result.files}}</b><span>文件</span></view>
+        <view class="result-cell"><b class="ok">{{result.imported}}</b><span>新增题目</span></view>
+        <view class="result-cell"><b class="muted">{{result.skipped}}</b><span>跳过</span></view>
+      </view>
+      <view class="details">
+        <view wx:for="{{result.details}}" wx:key="file" class="detail-row">
+          <view class="detail-main">
+            <view class="detail-file">{{item.file}}</view>
+            <view class="detail-msg">{{item.message || item.status}}</view>
+          </view>
+          <view class="detail-num">
+            <text class="ok">+{{item.imported}}</text>
+            <text wx:if="{{item.skipped}}" class="muted"> / 跳 {{item.skipped}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="result-actions">
+        <button class="btn ghost" bindtap="goBank">查看题库</button>
+        <button class="btn" bindtap="goHome">返回首页</button>
+      </view>
+    </view>
+
+    <view class="note">
+      导入会按题干去重；重复导入不会新增题目。扫描版 PDF 需要 OCR，暂时建议在网页端处理。
+    </view>
+  </block>
+
+  <view wx:else class="card empty">还没有学科，请先在网页端设置专业。</view>
+</view>

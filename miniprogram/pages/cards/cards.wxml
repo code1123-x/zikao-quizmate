@@ -1,0 +1,41 @@
+<view class="page cards">
+  <view class="head">
+    <view>
+      <view class="title">知识点</view>
+      <view class="sub">先回想，再看答案</view>
+    </view>
+    <view class="total">{{list.length}} 门</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载…</view>
+  <view wx:elif="{{!list.length}}" class="card empty">
+    还没有知识点卡片。先在网页端导入教材、讲义或主观题。
+  </view>
+
+  <view class="list">
+    <view
+      wx:for="{{list}}"
+      wx:key="subjectId"
+      class="card subject"
+      bindtap="start"
+      data-id="{{item.subjectId}}"
+    >
+      <view class="subject-top">
+        <view class="subject-badge" style="background: {{item.color}}">{{item.initial}}</view>
+        <view class="subject-copy">
+          <view class="subject-name">{{item.name}}</view>
+          <view class="subject-sub">
+            {{item.total}} 个知识点
+            <text wx:if="{{item.due > 0}}" class="due"> · 待复习 {{item.due}}</text>
+          </view>
+        </view>
+        <view class="start">开始背</view>
+      </view>
+      <view class="bar"><view class="bar-in" style="width: {{item.pct}}%; background: {{item.color}}"></view></view>
+      <view class="subject-foot">
+        <text class="muted">已掌握 {{item.mastered}} / {{item.total}}</text>
+        <text class="pct">{{item.pct}}%</text>
+      </view>
+    </view>
+  </view>
+</view>

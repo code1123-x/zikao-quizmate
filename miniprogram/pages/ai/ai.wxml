@@ -1,0 +1,102 @@
+<view class="page ai">
+  <view class="head">
+    <view>
+      <view class="title">AI 校验</view>
+      <view class="sub">让 AI 复核答案，采纳后才会修改题库</view>
+    </view>
+    <view class="status {{cfg && cfg.hasKey ? 'on' : 'off'}}" bindtap="webConfig">
+      {{cfg && cfg.hasKey ? '已配置' : '未配置'}}
+    </view>
+  </view>
+
+  <view wx:if="{{cfg && !cfg.hasKey}}" class="card config-tip" bindtap="webConfig">
+    <view class="tip-title">还没有配置 AI 接口</view>
+    <view class="tip-sub">先在网页端「设置 → AI 接口」填写 API Key，再回来校验。</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">正在加载…</view>
+
+  <block wx:elif="{{stats.length}}">
+    <view class="card subject-card">
+      <view class="field-label">选择学科</view>
+      <picker mode="selector" range="{{subjectNames}}" value="{{subjectIndex}}" bindchange="pickSubject">
+        <view class="picker-value">
+          <text>{{activeSubjectName}}</text>
+          <text class="picker-arrow">⌄</text>
+        </view>
+      </picker>
+      <view class="subject-meta">
+        <text>总题数 {{activeTotal}}</text>
+        <text>未校验 {{activeUnchecked}}</text>
+      </view>
+    </view>
+
+    <view class="card start-card">
+      <view class="progress-head">
+        <view class="progress-title">校验进度</view>
+        <view class="progress-pct">{{progressPct}}%</view>
+      </view>
+      <view class="progress"><view class="progress-in" style="width: {{progressPct}}%"></view></view>
+      <view class="progress-msg">
+        {{progress && progress.message ? progress.message : '还没有开始校验'}}
+        <text wx:if="{{progress && progress.total}}">（{{progress.done}}/{{progress.total}}）</text>
+      </view>
+      <button
+        class="btn"
+        loading="{{starting}}"
+        disabled="{{starting || (progress && progress.running)}}"
+        bindtap="start"
+      >
+        {{progress && progress.running ? '校验中…' : '开始校验'}}
+      </button>
+    </view>
+
+    <view class="status-row">
+      <view
+        wx:for="{{statuses}}"
+        wx:key="key"
+        class="status-chip {{statusFilter === item.key ? 'on' : ''}}"
+        bindtap="setStatus"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
+      <view wx:if="{{statusFilter === 'NEW' && checks.length}}" class="apply-all" bindtap="applyAll">
+        {{applyingAll ? '采纳中…' : '一键采纳 ' + checks.length + ' 条'}}
+      </view>
+    </view>
+
+    <view wx:if="{{!checks.length}}" class="card empty">
+      {{statusFilter === 'NEW' ? '这个学科暂时没有待处理的 AI 建议。' : '这个筛选下没有记录。'}}
+    </view>
+
+    <view class="list">
+      <view wx:for="{{checks}}" wx:key="questionId" class="card check">
+        <view class="check-top">
+          <view class="tag">{{item.typeLabel}}</view>
+          <view class="verdict {{item.verdict === 'WRONG' ? 'bad' : (item.verdict === 'UNSURE' ? 'mid' : 'ok')}}">
+            {{item.verdict === 'WRONG' ? '答案可能错' : (item.verdict === 'UNSURE' ? '不确定' : '答案可能对')}}
+          </view>
+        </view>
+        <view class="stem">{{item.stem}}</view>
+        <view class="answer-row">
+          <view class="answer-cell">
+            <view class="answer-key">当前答案</view>
+            <view class="answer-val">{{item.answer}}</view>
+          </view>
+          <view class="answer-cell">
+            <view class="answer-key">AI 答案</view>
+            <view class="answer-val ai">{{item.aiAnswer || '—'}}</view>
+          </view>
+        </view>
+        <view wx:if="{{item.reason}}" class="reason">{{item.reason}}</view>
+        <view wx:if="{{statusFilter === 'NEW'}}" class="check-actions">
+          <button class="mini" disabled="{{applyingId === item.questionId || !item.aiAnswer}}" bindtap="apply" data-id="{{item.questionId}}">
+            {{applyingId === item.questionId ? '更新中…' : '采纳 AI 答案'}}
+          </button>
+          <button class="mini ghost" bindtap="ignore" data-id="{{item.questionId}}">忽略</button>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="card empty">还没有可校验的学科或题目。</view>
+</view>
