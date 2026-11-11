@@ -7,6 +7,9 @@
 - 数据位置：`data/`（账号库 `auth.db`；1 号账号沿用 `data/quiz.db`，其他账号使用 `data/users/u<id>/quiz.db`）。
   备份时请停掉服务后复制整个 `data/` 和 `raw/`，不要只复制单个数据库文件。
 - 详细设计：`docs/设计方案.md`、`docs/资料盘点与导入策略.md`
+- GitHub 上传与后续更新：`docs/GitHub上传指南.md`
+
+> 仓库只保存源码、配置模板和文档；`data/`、`raw/`、数据库、日志和构建产物均为本地文件，已通过 `.gitignore` 排除。
 
 ---
 
